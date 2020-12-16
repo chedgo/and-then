@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function Movie(movie) {
+export default function Show(show) {
   return (
     <div>
-      {movie.name}
+      {show.name}
     </div>
   )
 }
