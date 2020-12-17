@@ -1,11 +1,28 @@
 import React from 'react';
 import { GoogleLogin } from 'react-google-login'
 
+
 const clientId = '808431265222-qhr04i4mvhatbchqhdg9urlirub77i12.apps.googleusercontent.com';
+
+const refreshTokenSetup = (res) => {
+  let refreshTiming = res.tokenObj.expires_in * 1000;
+
+  const refreshToken = async() => {
+    const newAuthRes = await res.reloadAuthResponse();
+    refreshTiming = newAuthRes.expires_in * 1000;
+    console.log('newAuthRes:', newAuthRes);
+    console.log('new auth token:', newAuthRes.id_token);
+    setTimeout(refreshToken, refreshTiming); // second refresh timer
+  }
+  setTimeout(refreshToken, refreshTiming) //first refresh timer
+}
+
 
 export default function Login(){
   const onSuccess = (res) =>{
     console.log('[Login Success] currentUser:',res.profileObj)
+
+    refreshTokenSetup(res);
   }
 
   const onFaliure = (res) =>{
