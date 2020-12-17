@@ -1,9 +1,5 @@
-import React from 'react'
+import React from "react";
 
-export default function Show(show) {
-  return (
-    <div>
-      {show.name}
-    </div>
-  )
+export default function Show({ id, name }) {
+  return <div id={id}>{name}</div>;
 }
