@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const { TVDBKey } = require("./env");
+const googleAuth = require("./googleAuth")
 const MovieDB = require("node-themoviedb");
 const mdb = new MovieDB(TVDBKey);
 //middleware

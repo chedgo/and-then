@@ -17,7 +17,7 @@ const refreshTokenSetup = (res) => {
   setTimeout(refreshToken, refreshTiming); //first refresh timer
 };
 
-export default function Login({setName}) {
+export default function Login({ setName }) {
   const onSuccess = (res) => {
     console.log("[Login Success] currentUser:", res.profileObj);
     setName(res.profileObj.name);
