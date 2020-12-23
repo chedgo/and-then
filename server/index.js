@@ -3,12 +3,13 @@ const app = express();
 const cors = require("cors");
 const pool = require("./db");
 const { TVDBKey } = require("./env");
-const googleAuth = require("./googleAuth")
+const googleAuth = require("./middleware/googleAuth");
 const MovieDB = require("node-themoviedb");
 const mdb = new MovieDB(TVDBKey);
 //middleware
-app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
+app.use(googleAuth);
 
 //routes
 
@@ -44,12 +45,12 @@ app.delete("/users/:id", async (req, res) => {
 //find a show
 app.get("/showsearch", async (req, res) => {
   try {
+    console.log(req.userId);
     const encodedSearchString = encodeURI(req.query.keyword);
     const args = {
       query: { query: encodedSearchString },
     };
     const movie = await mdb.search.TVShows(args);
-    console.log(movie);
     res.json(movie);
   } catch (error) {
     console.log(error);
