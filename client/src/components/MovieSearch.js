@@ -13,16 +13,20 @@ export default function MovieSearch() {
     url.search = new URLSearchParams({
       keyword: searchTerm,
     });
-  fetcher(url)
+    fetcher(url)
       .then((res) => res.json())
       .then((res) => setSearchResults(res.data.results))
       .then(setIfResultsAreDisplayed(true))
       .catch((error) => alert(error));
   }
-
+  function handleOnKeyPress(e) {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  }
   return (
     <div>
-      <input ref={searchTermRef} type="text" />
+      <input ref={searchTermRef} type="text" onKeyPress={handleOnKeyPress} />
       <button onClick={handleSearch}>Search</button>
       <SearchResults searchResults={searchResults} />
     </div>

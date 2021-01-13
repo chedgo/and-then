@@ -7,6 +7,6 @@ export default function SearchResults({ searchResults }) {
   }
   return searchResults.map((show) => {
     console.log(show);
-    return <Show id={show.id} name={show.name} />;
+    return <Show key={show.id} name={show.name} />;
   });
 }

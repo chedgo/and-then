@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Show({ id, name }) {
-  return <div id={id}>{name}</div>;
+  return <div key={id}>{name}</div>;
 }

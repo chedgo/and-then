@@ -19,30 +19,13 @@ const refreshTokenSetup = (res) => {
   setTimeout(refreshToken, refreshTiming); //first refresh timer
 };
 
-// const handleLogin = async (googleData) => {
-//   const res = await fetch("http://localhost:5000/users", {
-//     method: "POST",
-//     body: JSON.stringify({
-//       token: googleData.tokenId,
-//     }),
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-//   const data = await res.json();
-//   // store returned user somehow
-// };
-
 export default function Login({ setName }) {
   const onSuccess = (res) => {
     console.log("[Login Success] currentUser:", res.profileObj);
     setName(res.profileObj.name);
     refreshTokenSetup(res);
     cookies.set("auth-token-id", res.tokenId, {
-      // domain: "localhost:3000",
     });
-    // document.cookie = `auth-token-id=${res.tokenId}`;
-    // handleLogin(res);
   };
 
   const onFailure = (res) => {
