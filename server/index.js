@@ -50,8 +50,8 @@ app.get("/showsearch", async (req, res) => {
     const args = {
       query: { query: encodedSearchString },
     };
-    const movie = await mdb.search.TVShows(args);
-    res.json(movie);
+    const shows = await mdb.search.TVShows(args);
+    res.json(shows);
   } catch (error) {
     console.log(error);
     res.json(error);
