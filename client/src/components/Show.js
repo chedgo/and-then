@@ -1,8 +1,13 @@
 import React from "react";
+import Cookies from "universal-cookie";
+import useUser from "../utils/useUser";
+
+const cookies = new Cookies();
 
 export default function Show({ className, id, name, trackShowButton }) {
+  let user = useUser();
   let trackShow = () => {
-    console.log(name);
+    
   };
 
   return (

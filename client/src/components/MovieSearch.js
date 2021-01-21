@@ -5,7 +5,6 @@ import fetcher from "../utils/fetcher";
 export default function MovieSearch() {
   const [searchResults, setSearchResults] = useState([]);
   const searchTermRef = useRef();
-  const [resultsAreDisplayed, setIfResultsAreDisplayed] = useState(false);
 
   function handleSearch() {
     const searchTerm = searchTermRef.current.value;
@@ -16,7 +15,6 @@ export default function MovieSearch() {
     fetcher(url)
       .then((res) => res.json())
       .then((res) => setSearchResults(res.data.results))
-      .then(setIfResultsAreDisplayed(true))
       .catch((error) => alert(error));
   }
   function handleOnKeyPress(e) {

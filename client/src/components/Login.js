@@ -12,8 +12,8 @@ const refreshTokenSetup = (res) => {
   const refreshToken = async () => {
     const newAuthRes = await res.reloadAuthResponse();
     refreshTiming = newAuthRes.expires_in * 1000;
-    console.log("newAuthRes:", newAuthRes);
-    console.log("new auth token:", newAuthRes.id_token);
+    // console.log("newAuthRes:", newAuthRes);
+    // console.log("new auth token:", newAuthRes.id_token);
     setTimeout(refreshToken, refreshTiming); // second refresh timer
   };
   setTimeout(refreshToken, refreshTiming); //first refresh timer
@@ -24,6 +24,7 @@ export default function Login({ setName }) {
     console.log("[Login Success] currentUser:", res.profileObj);
     setName(res.profileObj.name);
     refreshTokenSetup(res);
+    cookies.set("user-object", res.profileObj)
     cookies.set("auth-token-id", res.tokenId, {
     });
   };
