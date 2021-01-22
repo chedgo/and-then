@@ -1,18 +1,19 @@
 import React from "react";
-import Cookies from "universal-cookie";
 import useUser from "../utils/useUser";
+import fetcher from "../utils/fetcher.js";
 
-const cookies = new Cookies();
-
-export default function Show({ className, id, name, trackShowButton }) {
+export default function Show({ className, showId, name, trackShowButton }) {
   let user = useUser();
   let trackShow = () => {
-    
+    const url = new URL(
+      `http://localhost:5000/users/${user.googleId}/${showId}`
+    );
+    fetcher(url, { method: "POST" }).catch((error) => alert(error));
   };
 
   return (
     <>
-      <div className={className} key={id}>
+      <div className={className} key={showId}>
         {name}
       </div>
       {trackShowButton && (

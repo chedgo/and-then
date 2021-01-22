@@ -58,6 +58,18 @@ app.get("/showsearch", async (req, res) => {
   }
 });
 //subscribe to show
+app.post("/users/:googleId/:showId", async (req, res) => {
+  try {
+    const { googleId, showId } = req.params;
+    const newSub = await pool.query(
+      "INSERT INTO user_shows (user_id, imdb_id, date_subscribed) VALUES ($1, $2, current_timestamp) RETURNING *",
+      [googleId, showId]
+    );
+    res.json(newSub);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 
 //unsubscribe to show
 
@@ -68,3 +80,5 @@ app.get("/showsearch", async (req, res) => {
 app.listen(5000, () => {
   console.log("listening on 5000");
 });
+
+

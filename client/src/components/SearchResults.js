@@ -10,7 +10,7 @@ export default function SearchResults({ searchResults }) {
   return searchResults.map((show) => {
     return (
       <div>
-        <Show className="search-results__show" id={show.id} name={show.name} trackShowButton />
+        <Show className="search-results__show" showId={show.id} name={show.name} trackShowButton />
         
       </div>
     );
