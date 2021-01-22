@@ -24,9 +24,8 @@ export default function Login({ setName }) {
     console.log("[Login Success] currentUser:", res.profileObj);
     setName(res.profileObj.name);
     refreshTokenSetup(res);
-    cookies.set("user-object", res.profileObj)
-    cookies.set("auth-token-id", res.tokenId, {
-    });
+    cookies.set("user-object", res.profileObj);
+    cookies.set("auth-token-id", res.tokenId, {});
   };
 
   const onFailure = (res) => {
