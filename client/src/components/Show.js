@@ -2,14 +2,28 @@ import React from "react";
 import useUser from "../utils/useUser";
 import fetcher from "../utils/fetcher.js";
 
-export default function Show({ className, showId, name, trackShowButton }) {
+export default function Show({
+  className,
+  showId,
+  name,
+  trackShowButton,
+  showIsTracked,
+  refetchUserShows,
+}) {
   let user = useUser();
+
   let trackShow = () => {
     const url = new URL(
       `http://localhost:5000/users/${user.googleId}/${showId}`
     );
-    fetcher(url, { method: "POST" }).catch((error) => alert(error));
+    fetcher(url, { method: "POST" })
+      .then(() => {
+        refetchUserShows();
+      })
+      .catch((error) => alert(error));
   };
+
+  let buttonText = showIsTracked ? "tracking" : "track this show";
 
   return (
     <>
@@ -18,7 +32,7 @@ export default function Show({ className, showId, name, trackShowButton }) {
       </div>
       {trackShowButton && (
         <button onClick={trackShow} className="search-results__track-button">
-          track this show
+          {buttonText}
         </button>
       )}
     </>

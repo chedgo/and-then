@@ -39,6 +39,28 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 //get user's shows
+let prepareShowArray = (response) =>{
+  
+  let ShowsArray = [];
+  response.rows.forEach((showObject) => {
+    ShowsArray.push(Object.values(showObject));
+  });
+  let flattenedShowsArray = ShowsArray.flat();
+  return flattenedShowsArray.map(x=>+x)
+}
+
+app.get("/users/:googleId", async (req, res) => {
+  try {
+    const googleId = req.params.googleId;
+    const showsResponse = await pool.query(
+      "SELECT show_id FROM user_shows WHERE user_id =$1;",
+      [googleId]
+    );
+    res.json(prepareShowArray(showsResponse));
+  } catch (error) {
+    console.error(error.message);
+  }
+});
 
 //get recommended shows
 
@@ -80,5 +102,3 @@ app.post("/users/:googleId/:showId", async (req, res) => {
 app.listen(5000, () => {
   console.log("listening on 5000");
 });
-
-

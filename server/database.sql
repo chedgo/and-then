@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS user_shows;
 
 CREATE TABLE users (
@@ -12,6 +12,8 @@ CREATE TABLE user_shows (
   show_id NUMERIC NOT NULL, /*add character limit*/
   date_subscribed TIMESTAMP NOT NULL,
   last_ep_watched VARCHAR NULL, /* change to VARCHAR(n) once format is clear*/
-  user_id NUMERIC NOT NULL REFERENCES users (user_id)
+  user_id NUMERIC NOT NULL REFERENCES users (user_id),
+  UNIQUE (show_id, user_id)
    );
 
+INSERT INTO users (user_id, user_name, date_joined) VALUES (111567807834960737232, 'Diego Glusberg', now ( ));

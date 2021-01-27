@@ -14,6 +14,6 @@ export default function useUser() {
 
     setUser(cookies.get("user-object"));
   }, []);
-
+  
   return user;
 }
