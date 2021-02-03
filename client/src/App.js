@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import useUser from "./utils/useUser";
 import LoggedInApp from "./components/LoggedInApp";
 import LoggedOutApp from "./components/LoggedOutApp";
