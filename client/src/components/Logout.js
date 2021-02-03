@@ -7,10 +7,9 @@ const cookies = new Cookies();
 const clientId =
   "808431265222-qhr04i4mvhatbchqhdg9urlirub77i12.apps.googleusercontent.com";
 
-export default function Logout({ setName }) {
+export default function Logout() {
   const onSuccess = () => {
     alert("Logged Out");
-    setName("");
     cookies.remove("user-object");
     cookies.remove("auth-token-id");
   };

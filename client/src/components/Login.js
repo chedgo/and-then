@@ -1,6 +1,7 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
 import Cookies from "universal-cookie";
+import fetcher from "../utils/fetcher";
 const cookies = new Cookies();
 
 const clientId =
@@ -19,13 +20,25 @@ const refreshTokenSetup = (res) => {
   setTimeout(refreshToken, refreshTiming); //first refresh timer
 };
 
-export default function Login({ setName }) {
+export default function Login() {
   const onSuccess = (res) => {
     console.log("[Login Success] currentUser:", res.profileObj);
-    setName(res.profileObj.name);
     refreshTokenSetup(res);
     cookies.set("user-object", res.profileObj);
     cookies.set("auth-token-id", res.tokenId, {});
+
+    const url = new URL(`http://localhost:5000/users`);
+    let bodyData = {
+      userId: res.profileObj.googleId,
+      userName: res.profileObj.name,
+    };
+    fetcher(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyData),
+    });
   };
 
   const onFailure = (res) => {

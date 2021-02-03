@@ -1,21 +1,12 @@
 import "./App.css";
-import React, { useState } from "react";
-import MovieSearch from "./components/MovieSearch";
-import SearchResults from "./components/SearchResults";
-import { mockSearchResults } from "./mockSearchResults";
-import Login from "./components/Login";
-import Logout from "./components/Logout";
+import React, { useEffect } from "react";
+import useUser from "./utils/useUser";
+import LoggedInApp from "./components/LoggedInApp";
+import LoggedOutApp from "./components/LoggedOutApp";
 
 function App() {
-  const [name, setName] = useState("");
-  return (
-    <>
-      <Login setName={setName} />
-      <div>{name}</div>
-      <Logout setName={setName}/>
-      <MovieSearch />
-    </>
-  );
+  const user = useUser();
+  return user ? <LoggedInApp /> : <LoggedOutApp />;
 }
 
 export default App;

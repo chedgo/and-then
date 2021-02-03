@@ -18,7 +18,7 @@ app.post("/users", async (req, res) => {
   try {
     const { userId, userName } = req.body;
     const newUser = await pool.query(
-      "INSERT INTO users (user_id, user_name, date_joined) VALUES ($1, $2, current_timestamp) RETURNING *",
+      "INSERT INTO users (user_id, user_name, date_joined) VALUES ($1, $2, current_timestamp) ON CONFLICT (user_id) DO NOTHING RETURNING *",
       [userId, userName]
     );
     res.json(newUser.rows[0]);
@@ -39,15 +39,14 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 //get user's shows
-let prepareShowArray = (response) =>{
-  
+let prepareShowArray = (response) => {
   let ShowsArray = [];
   response.rows.forEach((showObject) => {
     ShowsArray.push(Object.values(showObject));
   });
   let flattenedShowsArray = ShowsArray.flat();
-  return flattenedShowsArray.map(x=>+x)
-}
+  return flattenedShowsArray.map((x) => +x);
+};
 
 app.get("/users/:googleId", async (req, res) => {
   try {
@@ -94,6 +93,37 @@ app.post("/users/:googleId/:showId", async (req, res) => {
 });
 
 //unsubscribe to show
+app.delete("/users/:googleId/:showId", async (req, res) => {
+  try {
+    const { googleId, showId } = req.params;
+    const newSub = await pool.query(
+      "DELETE FROM user_shows WHERE user_Id = $1 AND show_id = $2 RETURNING *",
+      [googleId, showId]
+    );
+    res.json(newSub);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+//get episodes of a show
+app.get("/:userId/:showId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const showId = req.params.showId;
+
+    const args = {
+      pathParameters: {
+        tv_id: showId,
+      },
+    };
+
+    const showDetails = await mdb.tv.getDetails(args);
+    res.json(showDetails.data);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
 
 //mark episodes watched
 
