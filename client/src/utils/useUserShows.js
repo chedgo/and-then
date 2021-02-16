@@ -5,6 +5,7 @@ import useUser from "./useUser";
 export default function useUserShows() {
   const [userShows, setUserShows] = useState([]);
   const user = useUser();
+  
   const fetchTrackedShows = () => {
     if (!user) {
       console.log("not logged in");

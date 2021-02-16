@@ -2,7 +2,8 @@ import React, { useState, useRef } from "react";
 import SearchResults from "./SearchResults";
 import fetcher from "../utils/fetcher";
 
-export default function MovieSearch() {
+export default function MovieSearch({userShows,
+  refetchUserShows}) {
   const [searchResults, setSearchResults] = useState([]);
   const searchTermRef = useRef();
 
@@ -26,7 +27,7 @@ export default function MovieSearch() {
     <div>
       <input ref={searchTermRef} type="text" onKeyPress={handleOnKeyPress} />
       <button onClick={handleSearch}>Search</button>
-      <SearchResults searchResults={searchResults} />
+      <SearchResults userShows={userShows} refetchUserShows={refetchUserShows} searchResults={searchResults} />
     </div>
   );
 }

@@ -3,16 +3,20 @@ import Show from "./Show";
 import "./SearchResults.css";
 import useUser from "../utils/useUser";
 import useUserShows from "../utils/useUserShows";
+import prepareShowArray from "../utils/prepareShowArray";
 
-export default function SearchResults({ searchResults }) {
+export default function SearchResults({
+  searchResults,
+  userShows,
+  refetchUserShows,
+}) {
   let user = useUser();
-  let { userShows, refetchUserShows } = useUserShows();
   if (searchResults.length === 0) {
     return <div>no results found</div>;
   }
 
   return searchResults.map((show) => {
-    let showIsTracked = userShows.includes(show.id);
+    let showIsTracked = prepareShowArray(userShows).includes(show.id);
     return (
       <div>
         <Show
@@ -22,6 +26,7 @@ export default function SearchResults({ searchResults }) {
           trackShowButton
           showIsTracked={showIsTracked}
           refetchUserShows={refetchUserShows}
+          userShows={userShows}
         />
       </div>
     );

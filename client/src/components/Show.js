@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useUser from "../utils/useUser";
 import fetcher from "../utils/fetcher.js";
+import ShowDetails from "./ShowDetails";
 
 export default function Show({
   className,
@@ -19,10 +20,18 @@ export default function Show({
     const url = new URL(
       `http://localhost:5000/users/${user.googleId}/${showId}`
     );
-    fetcher(url, { method: "POST" })
+    let bodyData = { name: name };
+    fetcher(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(bodyData),
+    })
       .then(() => {
         refetchUserShows();
       })
+
       .catch((error) => alert(error));
   };
 
@@ -57,11 +66,6 @@ export default function Show({
     setShowShowDetails(!showShowDetails);
     // console.log(getShowDetails());
   };
-  console.log(showDetails);
-  let seasonText =
-    showDetails.number_of_seasons > 1
-      ? `this show has ${showDetails.number_of_seasons} seasons`
-      : `this show has one season`;
   return (
     <>
       <div className={className} key={showId}>
@@ -76,7 +80,7 @@ export default function Show({
         </button>
       )}
       <button onClick={onClickShowDetails}>show details</button>
-      {showShowDetails && <div>{seasonText} </div>}
+      {showShowDetails && <ShowDetails showDetails={showDetails} />}
     </>
   );
 }

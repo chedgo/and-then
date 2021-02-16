@@ -39,23 +39,15 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 //get user's shows
-let prepareShowArray = (response) => {
-  let ShowsArray = [];
-  response.rows.forEach((showObject) => {
-    ShowsArray.push(Object.values(showObject));
-  });
-  let flattenedShowsArray = ShowsArray.flat();
-  return flattenedShowsArray.map((x) => +x);
-};
 
 app.get("/users/:googleId", async (req, res) => {
   try {
     const googleId = req.params.googleId;
     const showsResponse = await pool.query(
-      "SELECT show_id FROM user_shows WHERE user_id =$1;",
+      "SELECT show_id, show_name FROM user_shows WHERE user_id =$1;",
       [googleId]
     );
-    res.json(prepareShowArray(showsResponse));
+    res.json(showsResponse.rows);
   } catch (error) {
     console.error(error.message);
   }
@@ -82,9 +74,10 @@ app.get("/showsearch", async (req, res) => {
 app.post("/users/:googleId/:showId", async (req, res) => {
   try {
     const { googleId, showId } = req.params;
+    const showName = req.body.name;
     const newSub = await pool.query(
-      "INSERT INTO user_shows (user_id, show_id, date_subscribed) VALUES ($1, $2, current_timestamp) RETURNING *",
-      [googleId, showId]
+      "INSERT INTO user_shows (user_id, show_id, date_subscribed, show_name) VALUES ($1, $2, current_timestamp, $3) RETURNING *",
+      [googleId, showId, showName]
     );
     res.json(newSub);
   } catch (error) {

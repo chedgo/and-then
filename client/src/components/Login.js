@@ -7,6 +7,7 @@ const cookies = new Cookies();
 const clientId =
   "808431265222-qhr04i4mvhatbchqhdg9urlirub77i12.apps.googleusercontent.com";
 
+
 const refreshTokenSetup = (res) => {
   let refreshTiming = res.tokenObj.expires_in * 1000;
 
@@ -20,13 +21,13 @@ const refreshTokenSetup = (res) => {
   setTimeout(refreshToken, refreshTiming); //first refresh timer
 };
 
-export default function Login() {
+export default function Login({callback}) {
+
   const onSuccess = (res) => {
     console.log("[Login Success] currentUser:", res.profileObj);
     refreshTokenSetup(res);
     cookies.set("user-object", res.profileObj);
     cookies.set("auth-token-id", res.tokenId, {});
-
     const url = new URL(`http://localhost:5000/users`);
     let bodyData = {
       userId: res.profileObj.googleId,
@@ -39,13 +40,14 @@ export default function Login() {
       },
       body: JSON.stringify(bodyData),
     });
+    callback()
   };
 
   const onFailure = (res) => {
     console.log("[Login Failed] res:", res);
   };
   return (
-    <div>
+    <div className="auth-button">
       <GoogleLogin
         clientId={clientId}
         buttonText="Login"
