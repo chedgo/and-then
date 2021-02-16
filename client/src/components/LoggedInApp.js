@@ -3,6 +3,7 @@ import MovieSearch from "../components/MovieSearch";
 import Logout from "./Logout";
 import UsersShows from "./UsersShows";
 import useUserShows from "../utils/useUserShows";
+import "./LoggedInApp.css"
 
 export default function LoggedInApp() {
   let { userShows, refetchUserShows } = useUserShows();
