@@ -98,7 +98,7 @@ app.delete("/users/:googleId/:showId", async (req, res) => {
     console.error(error.message);
   }
 });
-//get episodes of a show
+//get details of a show
 app.get("/:userId/:showId", async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -111,6 +111,26 @@ app.get("/:userId/:showId", async (req, res) => {
     };
 
     const showDetails = await mdb.tv.getDetails(args);
+    res.json(showDetails.data);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+//get details of a season
+app.get("/episodes/:showId/:seasonId", async (req, res) => {
+  try {
+    const seasonId = req.params.seasonId;
+    const showId = req.params.showId;
+
+    const args = {
+      pathParameters: {
+        tv_id: showId,
+        season_number: seasonId,
+      },
+    };
+
+    const showDetails = await mdb.tv.season.getDetails(args);
     res.json(showDetails.data);
   } catch (error) {
     console.log(error);

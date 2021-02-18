@@ -16,3 +16,7 @@ CREATE TABLE user_shows (
   user_id NUMERIC NOT NULL REFERENCES users (user_id),
   UNIQUE (show_id, user_id)
    );
+
+CREATE TABLE user_shows_episodes(
+  
+)
